@@ -7,6 +7,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -33,6 +34,11 @@ public class MappedListTest {
   @Test
   public void size() {
     assertEquals(5, this.list.size());
+  }
+
+  @Test
+  public void serialize() throws ClassNotFoundException, IOException {
+    assertEquals(this.equalList, ListTestUtil.copy(this.list));
   }
 
   @Test

@@ -8,6 +8,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -22,6 +23,11 @@ public class SingletonListTest {
   @Test
   public void size() {
     assertThat(new SingletonList<>("1"), hasSize(1));
+  }
+
+  @Test
+  public void serialize() throws ClassNotFoundException, IOException {
+    assertEquals(new SingletonList<>("1"), ListTestUtil.copy(new SingletonList<>("1")));
   }
 
   @Test

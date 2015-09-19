@@ -8,6 +8,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,6 +24,11 @@ public class RepeatingListTest {
   public void size() {
     assertThat(new RepeatingList<>("1", 1), hasSize(1));
     assertThat(new RepeatingList<>("1", 2), hasSize(2));
+  }
+
+  @Test
+  public void serialize() throws ClassNotFoundException, IOException {
+    assertEquals(new RepeatingList<>("1", 2), ListTestUtil.copy(new RepeatingList<>("1", 2)));
   }
 
   @Test
