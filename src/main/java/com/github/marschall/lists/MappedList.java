@@ -16,6 +16,12 @@ import java.util.function.Function;
 /**
  * A read only view on a {@link List} after applying a {@link Function}.
  *
+ * <p>This class is intended to be used when you already have a potentially
+ * large list and want another list based on invoking the same function on
+ * every element.</p>
+ *
+ * <p>This list behaves similar to {@link java.util.stream.Stream.map(Function)}.</p>
+ *
  * <p>The following operations will be slow (linear complexity or worse):</p>
  * <ul>
  *  <li>{@link #contains(Object)}</li>
@@ -86,6 +92,36 @@ public final class MappedList<E, O> extends AbstractCollection<E> implements Lis
     return new MappedIterator<>(this.mapFunction, this.delegate.iterator());
   }
 
+  public int hashCode() {
+    int hashCode = 1;
+    for (O each : this.delegate) {
+      hashCode = 31 * hashCode + Objects.hashCode(this.mapFunction.apply(each));
+    }
+    return hashCode;
+  }
+
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+
+    }
+    if (!(obj instanceof List)) {
+      return false;
+    }
+    List<?> other = (List<?>) obj;
+    int size = this.delegate.size();
+    if (size != other.size()) {
+      return false;
+    }
+    // TODO check if other implements RandomAccess
+    for (int i = 0; i < size; ++i) {
+      if (!Objects.equals(this.mapFunction.apply(this.delegate.get(i)), other.get(i))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @Override
   public Object[] toArray() {
     int size = this.size();
@@ -96,7 +132,7 @@ public final class MappedList<E, O> extends AbstractCollection<E> implements Lis
     return result;
   }
 
-  @SuppressWarnings("unchecked") // because array types are messes up
+  @SuppressWarnings("unchecked") // because arrays don't play well with generics
   @Override
   public <T> T[] toArray(T[] a) {
     int size = this.size();
