@@ -23,6 +23,21 @@ public class SingletonListTest {
   }
 
   @Test
+  public void testNull() {
+    List<String> customList = new SingletonList<>(null);
+    List<String> jdkList = Collections.singletonList(null);
+
+    assertEquals(jdkList, customList);
+    assertEquals(customList, jdkList);
+    assertEquals(jdkList.hashCode(), customList.hashCode());
+    assertEquals(jdkList.toString(), customList.toString());
+
+    assertTrue(customList.contains(null));
+    assertEquals(0, customList.indexOf(null));
+    assertEquals(0, customList.lastIndexOf(null));
+  }
+
+  @Test
   public void testGet() {
     assertEquals("1", new SingletonList<>("1").get(0));
   }

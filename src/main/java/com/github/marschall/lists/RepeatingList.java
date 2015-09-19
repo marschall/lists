@@ -3,12 +3,14 @@ package com.github.marschall.lists;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -31,7 +33,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
   /**
    * Constructor.
    *
-   * @param value the value the value
+   * @param value the value the value, can be {@code null}
    * @param repetitons the number of repetitions, must be positive
    */
   public RepeatingList(E value, int repetitons) {
@@ -83,12 +85,12 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
 
   @Override
   public boolean contains(Object o) {
-    return this.value.equals(o);
+    return Objects.equals(this.value, o);
   }
 
   @Override
   public int indexOf(Object o) {
-    if (this.value.equals(o)) {
+    if (Objects.equals(this.value, o)) {
       return 0;
     } else {
       return -1;
@@ -97,11 +99,66 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
 
   @Override
   public int lastIndexOf(Object o) {
-    if (this.value.equals(o)) {
+    if (Objects.equals(this.value, o)) {
       return this.repetitons - 1;
     } else {
       return -1;
     }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof List)) {
+      return false;
+    }
+    List<?> other = (List<?>) obj;
+    if (other.size() != this.repetitons) {
+      return false;
+    }
+    for (Object each : other) {
+      if (!Objects.equals(each, this.value)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hashCode = 1;
+    int valueHash = Objects.hashCode(this.value);
+    // TODO should be optimized further
+    for (int i = 0; i < this.repetitons; ++i) {
+      hashCode = 31 * hashCode + valueHash;
+    }
+    return hashCode;
+  }
+
+  @Override
+  public String toString() {
+    // this.value will never be the same as this
+    String stringValue = String.valueOf(this.value);
+    int finalSize = 2 + this.repetitons * stringValue.length() + (this.repetitons - 1) * 2;
+    StringBuilder buffer = new StringBuilder(finalSize);
+    buffer.append('[');
+    for (int i = 0; i < repetitons; ++i) {
+      if (i > 0) {
+        buffer.append(',').append(' ');
+      }
+      buffer.append(stringValue);
+    }
+    buffer.append(']');
+    return buffer.toString();
+  }
+
+  @Override
+  public Object[] toArray() {
+    Object[] result = new Object[this.repetitons];
+    Arrays.fill(result, this.value);
+    return result;
   }
 
   @Override

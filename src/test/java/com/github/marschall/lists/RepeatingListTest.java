@@ -1,6 +1,7 @@
 package com.github.marschall.lists;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -23,6 +24,21 @@ public class RepeatingListTest {
   public void testSize() {
     assertThat(new RepeatingList<>("1", 1), hasSize(1));
     assertThat(new RepeatingList<>("1", 2), hasSize(2));
+  }
+
+  @Test
+  public void testNull() {
+    List<String> customList = new RepeatingList<>(null, 3);
+    List<String> jdkList = Arrays.asList(null, null, null);
+
+    assertEquals(jdkList, customList);
+    assertEquals(customList, jdkList);
+    assertEquals(jdkList.hashCode(), customList.hashCode());
+    assertEquals(jdkList.toString(), customList.toString());
+
+    assertTrue(customList.contains(null));
+    assertEquals(0, customList.indexOf(null));
+    assertEquals(2, customList.lastIndexOf(null));
   }
 
   @Test
@@ -122,7 +138,12 @@ public class RepeatingListTest {
 
   @Test
   public void testToString() {
-    assertEquals(Arrays.asList("1", "1", "1").toString(), new RepeatingList<>("1", 3).toArray());
+    assertEquals(Arrays.asList("1", "1", "1").toString(), new RepeatingList<>("1", 3).toString());
+  }
+
+  @Test
+  public void testToArray() {
+    assertArrayEquals(Arrays.asList("1", "1", "1").toArray(), new RepeatingList<>("1", 3).toArray());
   }
 
   private static <T> List<T> collect(Stream<T> stream) {
