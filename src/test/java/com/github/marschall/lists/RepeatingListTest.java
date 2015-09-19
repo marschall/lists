@@ -31,10 +31,24 @@ public class RepeatingListTest {
     assertEquals("1", new RepeatingList<>("1", 2).get(1));
   }
 
+
   @Test
-  public void testEquals() {
-    assertEquals(Collections.singletonList("1"), new RepeatingList<>("1", 1));
-    assertEquals(Arrays.asList("1", "1"), new RepeatingList<>("1", 2));
+  public void testContains() {
+    List<String> list = new RepeatingList<>("1", 3);
+    assertTrue(list.contains("1"));
+    assertFalse(list.contains("2"));
+  }
+
+  @Test
+  public void testIndexOf() {
+    assertEquals(0, new RepeatingList<>("1", 3).indexOf("1"));
+    assertEquals(-1, new RepeatingList<>("1", 3).indexOf("2"));
+  }
+
+  @Test
+  public void testLastIndexOf() {
+    assertEquals(2, new RepeatingList<>("1", 3).lastIndexOf("1"));
+    assertEquals(-1, new RepeatingList<>("1", 3).lastIndexOf("2"));
   }
 
   @Test
@@ -74,19 +88,41 @@ public class RepeatingListTest {
 
 
   @Test
-  public void spliterator() {
+  public void testSpliterator() {
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 3).stream().collect(Collectors.toList()));
     assertEquals(3L, new RepeatingList<>("1", 3).stream().count());
   }
 
   @Test
-  public void forEach() {
+  public void testForEach() {
     assertEquals(Arrays.asList("1", "1", "1"), collect(new RepeatingList<>("1", 3).stream()));
   }
 
   @Test
-  public void skip() {
+  public void testSkip() {
     assertEquals(Collections.singletonList("1"), collect(new RepeatingList<>("1", 3).stream().skip(2L)));
+  }
+
+  @Test
+  public void testEquals() {
+    assertEquals(Collections.singletonList("1"), new RepeatingList<>("1", 1));
+    assertEquals(new RepeatingList<>("1", 1), Collections.singletonList("1"));
+
+    assertEquals(Arrays.asList("1", "1"), new RepeatingList<>("1", 2));
+    assertEquals(new RepeatingList<>("1", 2), Arrays.asList("1", "1"));
+
+    assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 3));
+    assertEquals(new RepeatingList<>("1", 3), Arrays.asList("1", "1", "1"));
+  }
+
+  @Test
+  public void testHashCode() {
+    assertEquals(Arrays.asList("1", "1", "1").hashCode(), new RepeatingList<>("1", 3).hashCode());
+  }
+
+  @Test
+  public void testToString() {
+    assertEquals(Arrays.asList("1", "1", "1").toString(), new RepeatingList<>("1", 3).toArray());
   }
 
   private static <T> List<T> collect(Stream<T> stream) {

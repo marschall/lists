@@ -1,7 +1,9 @@
 package com.github.marschall.lists;
 
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.AbstractList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.RandomAccess;
  *
  * @param <E> the element type
  */
-public final class SingletonList<E> extends AbstractList<E> implements Serializable, RandomAccess {
+public final class SingletonList<E> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
 
   private E value;
 
@@ -46,6 +48,25 @@ public final class SingletonList<E> extends AbstractList<E> implements Serializa
       throw new IndexOutOfBoundsException("invalid index: " + index + " only 0 allowed");
     }
     return this.value;
+  }
+
+  @Override
+  public boolean contains(Object o) {
+    return this.value.equals(o);
+  }
+
+  @Override
+  public int indexOf(Object o) {
+    if (this.value.equals(o)) {
+      return 0;
+    } else {
+      return -1;
+    }
+  }
+
+  @Override
+  public int lastIndexOf(Object o) {
+    return this.indexOf(o);
   }
 
   @Override
@@ -84,6 +105,21 @@ public final class SingletonList<E> extends AbstractList<E> implements Serializa
     } else {
       return this;
     }
+  }
+
+  @Override
+  public void add(int index, E element) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public E remove(int index) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean addAll(int index, Collection<? extends E> c) {
+    throw new UnsupportedOperationException();
   }
 
   final class SingletonIterator implements ListIterator<E> {

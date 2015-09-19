@@ -1,7 +1,9 @@
 package com.github.marschall.lists;
 
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.AbstractList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +21,8 @@ import java.util.function.Consumer;
  *
  * @param <E> the element type
  */
-public final class RepeatingList<E> extends AbstractList<E> implements Serializable, RandomAccess {
+public final class RepeatingList<E> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
+  // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
 
   private final E value;
 
@@ -56,6 +59,11 @@ public final class RepeatingList<E> extends AbstractList<E> implements Serializa
   }
 
   @Override
+  public boolean isEmpty() {
+    return false;
+  }
+
+  @Override
   public List<E> subList(int fromIndex, int toIndex) {
     if (fromIndex < 0 || toIndex > this.repetitons) {
       throw new IndexOutOfBoundsException("invalid from index: " + fromIndex + " to index: " + toIndex);
@@ -70,6 +78,29 @@ public final class RepeatingList<E> extends AbstractList<E> implements Serializa
       return Collections.singletonList(this.value);
     } else {
       return new RepeatingList<>(this.value, toIndex - fromIndex);
+    }
+  }
+
+  @Override
+  public boolean contains(Object o) {
+    return this.value.equals(o);
+  }
+
+  @Override
+  public int indexOf(Object o) {
+    if (this.value.equals(o)) {
+      return 0;
+    } else {
+      return -1;
+    }
+  }
+
+  @Override
+  public int lastIndexOf(Object o) {
+    if (this.value.equals(o)) {
+      return this.repetitons - 1;
+    } else {
+      return -1;
     }
   }
 
@@ -97,6 +128,31 @@ public final class RepeatingList<E> extends AbstractList<E> implements Serializa
   @Override
   public Spliterator<E> spliterator() {
     return new RepeatingSpliterator<>(this.value, this.repetitons);
+  }
+
+  @Override
+  public E remove(int index) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public E set(int index, E element) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void add(int index, E element) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean addAll(Collection<? extends E> c) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean addAll(int index, Collection<? extends E> c) {
+    throw new UnsupportedOperationException();
   }
 
   final class RepeatingIterator implements ListIterator<E> {

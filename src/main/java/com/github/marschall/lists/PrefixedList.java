@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.RandomAccess;
 
 public final class PrefixedList<E> extends AbstractList<E>implements Serializable, RandomAccess {
+  // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
   // RandomAccess because likely the cdr list implements it as well (eg. ArrayList)
 
   private final E car;

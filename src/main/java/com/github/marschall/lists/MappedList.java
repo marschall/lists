@@ -1,7 +1,8 @@
 package com.github.marschall.lists;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
-import java.util.AbstractList;
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,8 @@ import java.util.function.Function;
  * @param <E> the type of elements in this list
  * @param <O> the original element type of the underlying list
  */
-public final class MappedList<E, O> extends AbstractList<E> implements RandomAccess {
+public final class MappedList<E, O> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
+  // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
   // RandomAccess because likely the underlying list implements it as well (eg. ArrayList)
 
   private final Function<O, E> mapFunction;
