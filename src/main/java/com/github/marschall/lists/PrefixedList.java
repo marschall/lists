@@ -3,6 +3,7 @@ package com.github.marschall.lists;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.List;
+import java.util.Objects;
 import java.util.RandomAccess;
 
 /**
@@ -48,6 +49,35 @@ final class PrefixedList<E> extends AbstractList<E>implements Serializable, Rand
   @Override
   public int size() {
     return this.cdr.size() + 1;
+  }
+
+  @Override
+  public boolean contains(Object o) {
+    return Objects.equals(this.car, o) || this.cdr.contains(o);
+  }
+
+  @Override
+  public int indexOf(Object o) {
+    if (Objects.equals(this.car, o)) {
+      return 0;
+    } else {
+      int cdrIndex = this.cdr.indexOf(o);
+      if (cdrIndex == -1) {
+        return cdrIndex;
+      } else {
+        return cdrIndex + 1;
+      }
+    }
+  }
+
+  @Override
+  public int lastIndexOf(Object o) {
+    int cdrIndex = this.cdr.lastIndexOf(o);
+    if (cdrIndex == -1) {
+      return Objects.equals(this.car, o) ? 0 : -1;
+    } else {
+      return cdrIndex + 1;
+    }
   }
 
 }

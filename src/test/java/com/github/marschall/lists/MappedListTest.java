@@ -78,7 +78,7 @@ public class MappedListTest {
 
   @Test
   public void testToString() {
-    assertEquals("[0, 1, 2, 3, 4]", this.list.toString());
+    assertEquals(this.equalList.toString(), this.list.toString());
   }
 
   @Test
