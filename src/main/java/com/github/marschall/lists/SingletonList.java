@@ -2,13 +2,13 @@ package com.github.marschall.lists;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
-import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.RandomAccess;
 
 /**
@@ -52,12 +52,12 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
 
   @Override
   public boolean contains(Object o) {
-    return this.value.equals(o);
+    return Objects.equals(this.value, o);
   }
 
   @Override
   public int indexOf(Object o) {
-    if (this.value.equals(o)) {
+    if (Objects.equals(this.value, o)) {
       return 0;
     } else {
       return -1;
@@ -72,6 +72,40 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
   @Override
   public int size() {
     return 1;
+  }
+
+  @Override
+  public int hashCode() {
+    return 31 + Objects.hashCode(this.value);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof List)) {
+      return false;
+    }
+    List<?> other = (List<?>) obj;
+    if (other.size() != 1) {
+      return false;
+    }
+    return Objects.equals(this.value, other.get(0));
+  }
+
+  @Override
+  public String toString() {
+    if (this.value == this) {
+      return "(this Collection)";
+    } else {
+      return "[" + this.value + ']';
+    }
+  }
+
+  @Override
+  public Object[] toArray() {
+    return new Object[]{this.value};
   }
 
   @Override

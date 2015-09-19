@@ -1,6 +1,7 @@
 package com.github.marschall.lists;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -61,6 +62,11 @@ public class SingletonListTest {
   @Test
   public void testToString() {
     assertEquals(Collections.singletonList("1").toString(), new SingletonList<>("1").toString());
+  }
+
+  @Test
+  public void testToArray() {
+    assertArrayEquals(Collections.singletonList("1").toArray(), new SingletonList<>("1").toArray());
   }
 
   @Test
