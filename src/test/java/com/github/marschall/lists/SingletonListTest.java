@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +20,7 @@ import org.junit.Test;
 public class SingletonListTest {
 
   @Test
-  public void testSize() {
+  public void size() {
     assertThat(new SingletonList<>("1"), hasSize(1));
   }
 
@@ -39,32 +40,32 @@ public class SingletonListTest {
   }
 
   @Test
-  public void testGet() {
+  public void get() {
     assertEquals("1", new SingletonList<>("1").get(0));
   }
 
   @Test
-  public void testEquals() {
+  public void equals() {
     assertEquals(Collections.singletonList("1"), new SingletonList<>("1"));
     assertEquals(Arrays.asList("1"), new SingletonList<>("1"));
   }
 
   @Test
-  public void testContains() {
+  public void contains() {
     List<String> list = new SingletonList<>("1");
     assertTrue(list.contains("1"));
     assertFalse(list.contains("2"));
   }
 
   @Test
-  public void testIndexOf() {
+  public void indexOf() {
     List<String> list = new SingletonList<>("1");
     assertEquals(0, list.indexOf("1"));
     assertEquals(-1, list.indexOf("2"));
   }
 
   @Test
-  public void testLastIndexOf() {
+  public void lastIndexOf() {
     List<String> list = new SingletonList<>("1");
     assertEquals(0, list.lastIndexOf("1"));
     assertEquals(-1, list.lastIndexOf("2"));
@@ -81,12 +82,28 @@ public class SingletonListTest {
   }
 
   @Test
-  public void testToArray() {
+  public void toArray() {
     assertArrayEquals(Collections.singletonList("1").toArray(), new SingletonList<>("1").toArray());
   }
 
   @Test
-  public void testSet() {
+  public void toArrayArgument() {
+    List<String> list = new SingletonList<>("1");
+    String[] tooShort = new String[0];
+    assertArrayEquals(new String[] {"1"}, list.toArray(tooShort));
+    assertEquals(String[].class, list.toArray(tooShort).getClass());
+    assertEquals(Object[].class, list.toArray(new Object[] {"foo", "bar"}).getClass());
+
+    assertArrayEquals(new String[] {"1", null, "6"}, list.toArray(new String[] {"6", "6", "6"}));
+    assertArrayEquals(new String[] {"1", null}, list.toArray(new String[] {"6", "6"}));
+
+    String[] longEnough = new String[] {"6"};
+    assertArrayEquals(new String[] {"1"}, list.toArray(longEnough));
+    assertSame(longEnough, list.toArray(longEnough));
+  }
+
+  @Test
+  public void set() {
     List<String> list = new SingletonList<>("1");
     assertEquals(Collections.singletonList("1"), list);
     assertEquals("1", list.set(0, "2"));
@@ -94,7 +111,7 @@ public class SingletonListTest {
   }
 
   @Test
-  public void testSetIterator() {
+  public void iteratorSet() {
     List<String> list = new SingletonList<>("1");
     assertEquals(Collections.singletonList("1"), list);
 
@@ -106,35 +123,35 @@ public class SingletonListTest {
   }
 
   @Test
-  public void testIteratorSemantics() {
+  public void iteratorSemantics() {
     assertIteratorSemantics(Collections.singletonList("1"), "1");
     assertIteratorSemantics(Arrays.asList("1"), "1");
     assertIteratorSemantics(new SingletonList<>("1"), "1");
   }
 
   @Test
-  public void testListIteratorSemantics() {
+  public void listIteratorSemantics() {
     assertListIteratorSemantics(Collections.singletonList("1"), "1");
     assertListIteratorSemantics(Arrays.asList("1"), "1");
     assertListIteratorSemantics(new SingletonList<>("1"), "1");
   }
 
   @Test
-  public void testListIteratorIntNotEmptySemantics() {
+  public void listIteratorIntNotEmptySemantics() {
     assertListIteratorSemantics(Collections.singletonList("1").listIterator(0), "1");
     assertListIteratorSemantics(Arrays.asList("1").listIterator(0), "1");
     assertListIteratorSemantics(new SingletonList<>("1").listIterator(0), "1");
   }
 
   @Test
-  public void testListIteratorIntEmptySemantics() {
+  public void listIteratorIntEmptySemantics() {
     assertListIteratorSemanticsEmpty(Collections.singletonList("1"), "1");
     assertListIteratorSemanticsEmpty(Arrays.asList("1"), "1");
     assertListIteratorSemanticsEmpty(new SingletonList<>("1"), "1");
   }
 
   @Test
-  public void testSubList() {
+  public void subList() {
     assertEquals(Collections.singletonList("1").subList(0, 0), new SingletonList<>("1").subList(0, 0));
     assertEquals(Collections.singletonList("1").subList(0, 1), new SingletonList<>("1").subList(0, 1));
     assertEquals(Arrays.asList("1").subList(0, 0), new SingletonList<>("1").subList(0, 0));
@@ -143,13 +160,13 @@ public class SingletonListTest {
 
 
   @Test
-  public void testSpliterator() {
+  public void spliterator() {
     assertEquals(Collections.singletonList("1"), new SingletonList<>("1").stream().collect(Collectors.toList()));
     assertEquals(1L, new SingletonList<>("1").stream().count());
   }
 
   @Test
-  public void testForEach() {
+  public void forEach() {
     assertEquals(Collections.singletonList("1"), ListTestUtil.collect(new SingletonList<>("1").stream()));
   }
 

@@ -1,6 +1,7 @@
 package com.github.marschall.lists;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
@@ -108,6 +109,23 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
   @Override
   public Object[] toArray() {
     return new Object[]{this.element};
+  }
+
+  @Override
+  @SuppressWarnings("unchecked") // because arrays don't play well with generics
+  public <T> T[] toArray(T[] a) {
+    int length = a.length;
+    if (length == 0) {
+      T[] result = (T[]) Array.newInstance(a.getClass().getComponentType(), 1);
+      result[0] = (T) this.element;
+      return result;
+    } else {
+      a[0] = (T) this.element;
+      if (length > 1) {
+        a[1] = null;
+      }
+      return a;
+    }
   }
 
   @Override

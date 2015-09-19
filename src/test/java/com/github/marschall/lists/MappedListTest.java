@@ -3,6 +3,7 @@ package com.github.marschall.lists;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -75,7 +76,7 @@ public class MappedListTest {
   }
 
   @Test
-  public void testEquals() {
+  public void equals() {
     assertEquals(this.equalList, this.list);
     assertEquals(this.list, this.equalList);
   }
@@ -185,6 +186,11 @@ public class MappedListTest {
     assertEquals(Object[].class, this.list.toArray(new Object[] {"foo", "bar"}).getClass());
 
     assertArrayEquals(new String[] {"0", "1", "2", "3", "4", null, "6"}, this.list.toArray(new String[] {"6", "6", "6", "6", "6", "6", "6"}));
+    assertArrayEquals(new String[] {"0", "1", "2", "3", "4", null}, this.list.toArray(new String[] {"6", "6", "6", "6", "6", "6"}));
+
+    String[] longEnough = new String[] {"6", "6", "6", "6", "6"};
+    assertArrayEquals(new String[] {"0", "1", "2", "3", "4"}, this.list.toArray(longEnough));
+    assertSame(longEnough, this.list.toArray(longEnough));
   }
 
 }

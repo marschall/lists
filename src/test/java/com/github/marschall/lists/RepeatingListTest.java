@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +20,7 @@ import org.junit.Test;
 public class RepeatingListTest {
 
   @Test
-  public void testSize() {
+  public void size() {
     assertThat(new RepeatingList<>("1", 1), hasSize(1));
     assertThat(new RepeatingList<>("1", 2), hasSize(2));
   }
@@ -40,39 +41,39 @@ public class RepeatingListTest {
   }
 
   @Test
-  public void testGet() {
+  public void get() {
     assertEquals("1", new RepeatingList<>("1", 2).get(0));
     assertEquals("1", new RepeatingList<>("1", 2).get(1));
   }
 
 
   @Test
-  public void testContains() {
+  public void contains() {
     List<String> list = new RepeatingList<>("1", 3);
     assertTrue(list.contains("1"));
     assertFalse(list.contains("2"));
   }
 
   @Test
-  public void testIndexOf() {
+  public void lndexOf() {
     assertEquals(0, new RepeatingList<>("1", 3).indexOf("1"));
     assertEquals(-1, new RepeatingList<>("1", 3).indexOf("2"));
   }
 
   @Test
-  public void testLastIndexOf() {
+  public void lastIndexOf() {
     assertEquals(2, new RepeatingList<>("1", 3).lastIndexOf("1"));
     assertEquals(-1, new RepeatingList<>("1", 3).lastIndexOf("2"));
   }
 
   @Test
-  public void testIteratorSemantics() {
+  public void iteratorSemantics() {
     assertIteratorSemantics(Arrays.asList("1", "1", "1"), "1", 3);
     assertIteratorSemantics(new RepeatingList<>("1", 3), "1", 3);
   }
 
   @Test
-  public void testListIteratorSemantics() {
+  public void listIteratorSemantics() {
     assertListIteratorSemantics(Collections.singletonList("1"), "1");
     assertListIteratorSemantics(Arrays.asList("1"), "1");
     assertListIteratorSemantics(new RepeatingList<>("1", 1), "1");
@@ -81,19 +82,19 @@ public class RepeatingListTest {
   }
 
   @Test
-  public void testListIteratorIntNotEmptySemantics() {
+  public void listIteratorIntNotEmptySemantics() {
     assertListIteratorSemantics(Arrays.asList("1", "1", "1").listIterator(0), "1", 3);
     assertListIteratorSemantics(new RepeatingList<>("1", 3).listIterator(0), "1", 3);
   }
 
   @Test
-  public void testListIteratorIntEmptySemantics() {
+  public void listIteratorIntEmptySemantics() {
     assertListIteratorSemanticsEmpty(Arrays.asList("1", "1", "1"), "1");
     assertListIteratorSemanticsEmpty(new RepeatingList<>("1", 3), "1");
   }
 
   @Test
-  public void testSubList() {
+  public void subList() {
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 6).subList(0, 3));
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 6).subList(3, 6));
     assertEquals(Collections.singletonList("1"), new RepeatingList<>("1", 6).subList(0, 1));
@@ -101,23 +102,23 @@ public class RepeatingListTest {
   }
 
   @Test
-  public void testSpliterator() {
+  public void spliterator() {
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 3).stream().collect(Collectors.toList()));
     assertEquals(3L, new RepeatingList<>("1", 3).stream().count());
   }
 
   @Test
-  public void testForEach() {
+  public void forEach() {
     assertEquals(Arrays.asList("1", "1", "1"), ListTestUtil.collect(new RepeatingList<>("1", 3).stream()));
   }
 
   @Test
-  public void testSkip() {
+  public void skip() {
     assertEquals(Collections.singletonList("1"), ListTestUtil.collect(new RepeatingList<>("1", 3).stream().skip(2L)));
   }
 
   @Test
-  public void testEquals() {
+  public void equals() {
     assertEquals(Collections.singletonList("1"), new RepeatingList<>("1", 1));
     assertEquals(new RepeatingList<>("1", 1), Collections.singletonList("1"));
 
@@ -139,8 +140,24 @@ public class RepeatingListTest {
   }
 
   @Test
-  public void testToArray() {
+  public void toArray() {
     assertArrayEquals(Arrays.asList("1", "1", "1").toArray(), new RepeatingList<>("1", 3).toArray());
+  }
+
+  @Test
+  public void toArrayArgument() {
+    List<String> list = new RepeatingList<>("1", 5);
+    String[] tooShort = new String[] {"foo", "bar"};
+    assertArrayEquals(new String[] {"1", "1", "1", "1", "1"}, list.toArray(tooShort));
+    assertEquals(String[].class, list.toArray(tooShort).getClass());
+    assertEquals(Object[].class, list.toArray(new Object[] {"foo", "bar"}).getClass());
+
+    assertArrayEquals(new String[] {"1", "1", "1", "1", "1", null, "6"}, list.toArray(new String[] {"6", "6", "6", "6", "6", "6", "6"}));
+    assertArrayEquals(new String[] {"1", "1", "1", "1", "1", null}, list.toArray(new String[] {"6", "6", "6", "6", "6", "6"}));
+
+    String[] longEnough = new String[] {"6", "6", "6", "6", "6"};
+    assertArrayEquals(new String[] {"1", "1", "1", "1", "1"}, list.toArray(longEnough));
+    assertSame(longEnough, list.toArray(longEnough));
   }
 
   private static void assertListIteratorSemanticsEmpty(List<?> list, Object next) {

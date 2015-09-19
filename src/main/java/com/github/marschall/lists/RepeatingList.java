@@ -1,6 +1,7 @@
 package com.github.marschall.lists;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -26,7 +27,7 @@ import java.util.function.Consumer;
 public final class RepeatingList<E> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
 
-  private final E value;
+  private final E element;
 
   private final int repetitons;
 
@@ -40,7 +41,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
     if (repetitons <= 0) {
       throw new IllegalArgumentException("repetitions must be positive but was: " + repetitons);
     }
-    this.value = value;
+    this.element = value;
     this.repetitons = repetitons;
   }
 
@@ -52,7 +53,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
     if (index >= this.repetitons) {
       throw new IndexOutOfBoundsException("index: " + index + " too larget");
     }
-    return this.value;
+    return this.element;
   }
 
   @Override
@@ -77,20 +78,20 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
       return Collections.emptyList();
     } else if (toIndex - fromIndex == 1) {
       // seems a better choice than com.github.marschall.lists.SingletonList as this is immutable as well
-      return Collections.singletonList(this.value);
+      return Collections.singletonList(this.element);
     } else {
-      return new RepeatingList<>(this.value, toIndex - fromIndex);
+      return new RepeatingList<>(this.element, toIndex - fromIndex);
     }
   }
 
   @Override
   public boolean contains(Object o) {
-    return Objects.equals(this.value, o);
+    return Objects.equals(this.element, o);
   }
 
   @Override
   public int indexOf(Object o) {
-    if (Objects.equals(this.value, o)) {
+    if (Objects.equals(this.element, o)) {
       return 0;
     } else {
       return -1;
@@ -99,7 +100,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
 
   @Override
   public int lastIndexOf(Object o) {
-    if (Objects.equals(this.value, o)) {
+    if (Objects.equals(this.element, o)) {
       return this.repetitons - 1;
     } else {
       return -1;
@@ -119,7 +120,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
       return false;
     }
     for (Object each : other) {
-      if (!Objects.equals(each, this.value)) {
+      if (!Objects.equals(each, this.element)) {
         return false;
       }
     }
@@ -129,7 +130,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
   @Override
   public int hashCode() {
     int hashCode = 1;
-    int valueHash = Objects.hashCode(this.value);
+    int valueHash = Objects.hashCode(this.element);
     // TODO should be optimized further
     for (int i = 0; i < this.repetitons; ++i) {
       hashCode = 31 * hashCode + valueHash;
@@ -140,7 +141,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
   @Override
   public String toString() {
     // this.value will never be the same as this
-    String stringValue = String.valueOf(this.value);
+    String stringValue = String.valueOf(this.element);
     int finalSize = 2 + this.repetitons * stringValue.length() + (this.repetitons - 1) * 2;
     StringBuilder buffer = new StringBuilder(finalSize);
     buffer.append('[');
@@ -157,8 +158,25 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
   @Override
   public Object[] toArray() {
     Object[] result = new Object[this.repetitons];
-    Arrays.fill(result, this.value);
+    Arrays.fill(result, this.element);
     return result;
+  }
+
+  @Override
+  public <T> T[] toArray(T[] a) {
+    int length = a.length;
+    if (length < this.repetitons) {
+      @SuppressWarnings("unchecked") // because arrays don't play well with generics
+      T[] result = (T[]) Array.newInstance(a.getClass().getComponentType(), this.repetitons);
+      Arrays.fill(result, 0, this.repetitons, this.element);
+      return result;
+    } else {
+      Arrays.fill(a, 0, this.repetitons, this.element);
+      if (length > this.repetitons) {
+        a[this.repetitons] = null;
+      }
+      return a;
+    }
   }
 
   @Override
@@ -184,7 +202,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
 
   @Override
   public Spliterator<E> spliterator() {
-    return new RepeatingSpliterator<>(this.value, this.repetitons);
+    return new RepeatingSpliterator<>(this.element, this.repetitons);
   }
 
   @Override
@@ -231,7 +249,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
         throw new NoSuchElementException();
       }
       this.index += 1;
-      return value;
+      return element;
     }
 
     @Override
@@ -245,7 +263,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
         throw new NoSuchElementException();
       }
       this.index -= 1;
-      return value;
+      return element;
     }
 
     @Override
