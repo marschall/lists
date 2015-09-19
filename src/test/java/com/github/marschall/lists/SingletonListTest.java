@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -138,6 +139,18 @@ public class SingletonListTest {
     assertEquals(Collections.singletonList("1").subList(0, 1), new SingletonList<>("1").subList(0, 1));
     assertEquals(Arrays.asList("1").subList(0, 0), new SingletonList<>("1").subList(0, 0));
     assertEquals(Arrays.asList("1").subList(0, 1), new SingletonList<>("1").subList(0, 1));
+  }
+
+
+  @Test
+  public void testSpliterator() {
+    assertEquals(Collections.singletonList("1"), new SingletonList<>("1").stream().collect(Collectors.toList()));
+    assertEquals(1L, new SingletonList<>("1").stream().count());
+  }
+
+  @Test
+  public void testForEach() {
+    assertEquals(Collections.singletonList("1"), ListTestUtil.collect(new SingletonList<>("1").stream()));
   }
 
   private static void assertListIteratorSemanticsEmpty(List<?> list, Object next) {

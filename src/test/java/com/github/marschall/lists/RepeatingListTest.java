@@ -7,14 +7,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -102,7 +100,6 @@ public class RepeatingListTest {
     assertEquals(Collections.emptyList(), new RepeatingList<>("1", 6).subList(0, 0));
   }
 
-
   @Test
   public void testSpliterator() {
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 3).stream().collect(Collectors.toList()));
@@ -111,12 +108,12 @@ public class RepeatingListTest {
 
   @Test
   public void testForEach() {
-    assertEquals(Arrays.asList("1", "1", "1"), collect(new RepeatingList<>("1", 3).stream()));
+    assertEquals(Arrays.asList("1", "1", "1"), ListTestUtil.collect(new RepeatingList<>("1", 3).stream()));
   }
 
   @Test
   public void testSkip() {
-    assertEquals(Collections.singletonList("1"), collect(new RepeatingList<>("1", 3).stream().skip(2L)));
+    assertEquals(Collections.singletonList("1"), ListTestUtil.collect(new RepeatingList<>("1", 3).stream().skip(2L)));
   }
 
   @Test
@@ -144,12 +141,6 @@ public class RepeatingListTest {
   @Test
   public void testToArray() {
     assertArrayEquals(Arrays.asList("1", "1", "1").toArray(), new RepeatingList<>("1", 3).toArray());
-  }
-
-  private static <T> List<T> collect(Stream<T> stream) {
-    List<T> result = new ArrayList<>();
-    stream.forEach(each -> result.add(each));
-    return result;
   }
 
   private static void assertListIteratorSemanticsEmpty(List<?> list, Object next) {

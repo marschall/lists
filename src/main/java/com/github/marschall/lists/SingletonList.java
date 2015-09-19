@@ -10,6 +10,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 /**
  * A {@link java.util.List} with only a single element.
@@ -21,7 +23,7 @@ import java.util.RandomAccess;
  */
 public final class SingletonList<E> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
 
-  private E value;
+  private E element;
 
   /**
    * Constructor.
@@ -29,16 +31,16 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
    * @param value the value, can be {@code null}
    */
   public SingletonList(E value) {
-    this.value = value;
+    this.element = value;
   }
 
   @Override
   public E set(int index, E element) {
-    E old = this.value;
+    E old = this.element;
     if (index != 0) {
       throw new IndexOutOfBoundsException("invalid index: " + index + " only 0 allowed");
     }
-    this.value = element;
+    this.element = element;
     return old;
   }
 
@@ -47,17 +49,17 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
     if (index != 0) {
       throw new IndexOutOfBoundsException("invalid index: " + index + " only 0 allowed");
     }
-    return this.value;
+    return this.element;
   }
 
   @Override
   public boolean contains(Object o) {
-    return Objects.equals(this.value, o);
+    return Objects.equals(this.element, o);
   }
 
   @Override
   public int indexOf(Object o) {
-    if (Objects.equals(this.value, o)) {
+    if (Objects.equals(this.element, o)) {
       return 0;
     } else {
       return -1;
@@ -76,7 +78,7 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
 
   @Override
   public int hashCode() {
-    return 31 + Objects.hashCode(this.value);
+    return 31 + Objects.hashCode(this.element);
   }
 
   @Override
@@ -91,21 +93,21 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
     if (other.size() != 1) {
       return false;
     }
-    return Objects.equals(this.value, other.get(0));
+    return Objects.equals(this.element, other.get(0));
   }
 
   @Override
   public String toString() {
-    if (this.value == this) {
+    if (this.element == this) {
       return "(this Collection)";
     } else {
-      return "[" + this.value + ']';
+      return "[" + this.element + ']';
     }
   }
 
   @Override
   public Object[] toArray() {
-    return new Object[]{this.value};
+    return new Object[]{this.element};
   }
 
   @Override
@@ -116,6 +118,11 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
   @Override
   public ListIterator<E> listIterator() {
     return new SingletonIterator(true);
+  }
+
+  @Override
+  public Spliterator<E> spliterator() {
+    return new SingletonSpliterator<>(this.element);
   }
 
   @Override
@@ -173,7 +180,7 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
     public E next() {
       if (this.isFirst) {
         this.isFirst = false;
-        return value;
+        return element;
       } else {
         throw new NoSuchElementException();
       }
@@ -190,7 +197,7 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
         throw new NoSuchElementException();
       } else {
         this.isFirst = true;
-        return value;
+        return element;
       }
     }
 
@@ -222,13 +229,67 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
       if (this.isFirst) {
         throw new IllegalStateException();
       } else {
-        value = e;
+        element = e;
       }
     }
 
     @Override
     public void add(E e) {
       throw new UnsupportedOperationException();
+    }
+
+  }
+
+
+  static final class SingletonSpliterator<E> implements Spliterator<E> {
+
+    private final E element;
+    private boolean isFirst;
+
+    SingletonSpliterator(E value) {
+      this.element = value;
+      this.isFirst = true;
+    }
+    @Override
+    public void forEachRemaining(Consumer<? super E> action) {
+      if (this.isFirst) {
+        action.accept(this.element);
+        this.isFirst = false;
+      }
+    }
+
+    @Override
+    public boolean tryAdvance(Consumer<? super E> action) {
+      if (this.isFirst) {
+        action.accept(this.element);
+        this.isFirst = false;
+        return true;
+      }
+      return false;
+    }
+
+    @Override
+    public Spliterator<E> trySplit() {
+      return null;
+    }
+
+    @Override
+    public long estimateSize() {
+      if (this.isFirst) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
+    @Override
+    public long getExactSizeIfKnown() {
+      return this.estimateSize();
+    }
+
+    @Override
+    public int characteristics() {
+      return Spliterator.SUBSIZED;
     }
 
   }
