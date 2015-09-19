@@ -14,15 +14,15 @@ import java.util.RandomAccess;
  * want to add to the start of an {@link ArrayList}</p>
  *
  * <p>
- * This list does not support modification if the underlying list supports it.
+ * This list does support modification if the underlying list supports it.
  *
  * @param <E> the element type
  */
-final class PrefixedList<E> extends AbstractList<E>implements Serializable, RandomAccess {
+public final class PrefixedList<E> extends AbstractList<E>implements Serializable, RandomAccess {
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
   // RandomAccess because likely the cdr list implements it as well (eg. ArrayList)
 
-  private final E car;
+  private E car;
   private final List<E> cdr;
 
   public PrefixedList(E head, List<E> tail) {
@@ -39,6 +39,19 @@ final class PrefixedList<E> extends AbstractList<E>implements Serializable, Rand
       return this.car;
     }
     return this.cdr.get(index - 1);
+  }
+
+  @Override
+  public E set(int index, E element) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException("negative index: " + index);
+    }
+    if (index == 0) {
+      E previous = this.car;
+      this.car = element;
+      return previous;
+    }
+    return this.cdr.set(index - 1, element);
   }
 
   @Override

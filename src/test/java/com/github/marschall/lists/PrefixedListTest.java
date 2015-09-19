@@ -23,6 +23,23 @@ public class PrefixedListTest {
   }
 
   @Test
+  public void get() {
+    assertEquals("0", this.list.get(0));
+    assertEquals("1", this.list.get(1));
+    assertEquals("2", this.list.get(2));
+    assertEquals("3", this.list.get(3));
+    assertEquals("4", this.list.get(4));
+  }
+
+  @Test
+  public void set() {
+    this.list.set(0, "A");
+    assertEquals(Arrays.asList("A", "1", "2", "3", "4"), this.list);
+    this.list.set(1, "B");
+    assertEquals(Arrays.asList("A", "B", "2", "3", "4"), this.list);
+  }
+
+  @Test
   public void size() {
     assertEquals(5, this.list.size());
   }

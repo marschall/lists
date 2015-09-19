@@ -32,6 +32,15 @@ public class MappedListTest {
   }
 
   @Test
+  public void get() {
+    assertEquals("0", this.list.get(0));
+    assertEquals("1", this.list.get(1));
+    assertEquals("2", this.list.get(2));
+    assertEquals("3", this.list.get(3));
+    assertEquals("4", this.list.get(4));
+  }
+
+  @Test
   public void size() {
     assertEquals(5, this.list.size());
   }
