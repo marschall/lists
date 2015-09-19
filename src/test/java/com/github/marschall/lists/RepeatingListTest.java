@@ -6,12 +6,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.image.ReplicateScaleFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -68,6 +70,29 @@ public class RepeatingListTest {
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 6).subList(3, 6));
     assertEquals(Collections.singletonList("1"), new RepeatingList<>("1", 6).subList(0, 1));
     assertEquals(Collections.emptyList(), new RepeatingList<>("1", 6).subList(0, 0));
+  }
+
+
+  @Test
+  public void spliterator() {
+    assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 3).stream().collect(Collectors.toList()));
+    assertEquals(3L, new RepeatingList<>("1", 3).stream().count());
+  }
+
+  @Test
+  public void forEach() {
+    assertEquals(Arrays.asList("1", "1", "1"), collect(new RepeatingList<>("1", 3).stream()));
+  }
+
+  @Test
+  public void skip() {
+    assertEquals(Collections.singletonList("1"), collect(new RepeatingList<>("1", 3).stream().skip(2L)));
+  }
+
+  private static <T> List<T> collect(Stream<T> stream) {
+    List<T> result = new ArrayList<>();
+    stream.forEach(each -> result.add(each));
+    return result;
   }
 
   private static void assertListIteratorSemanticsEmpty(List<?> list, Object next) {

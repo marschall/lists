@@ -94,6 +94,11 @@ public final class RepeatingList<E> extends AbstractList<E> implements Serializa
     return new RepeatingIterator(index);
   }
 
+  @Override
+  public Spliterator<E> spliterator() {
+    return new RepeatingSpliterator<>(this.value, this.repetitons);
+  }
+
   final class RepeatingIterator implements ListIterator<E> {
 
     private int index;
@@ -155,8 +160,6 @@ public final class RepeatingList<E> extends AbstractList<E> implements Serializa
       throw new UnsupportedOperationException();
     }
 
-
-
   }
 
   static final class RepeatingSpliterator<E> implements Spliterator<E> {
@@ -189,8 +192,12 @@ public final class RepeatingList<E> extends AbstractList<E> implements Serializa
 
     @Override
     public Spliterator<E> trySplit() {
-      // TODO Auto-generated method stub
-      return null;
+      if (this.left <= 1) {
+        return null;
+      }
+      int half = this.left / 2;
+      this.left -= half;
+      return new RepeatingSpliterator<>(this.element, half);
     }
 
     @Override
