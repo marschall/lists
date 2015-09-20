@@ -13,12 +13,11 @@ import javax.annotation.concurrent.NotThreadSafe;
 /**
  * A Lisp-style list with a head and a tail.
  *
- * <p>This list exists because <code>ArrayList.add(0, element)</code>
+ * <p>This list exists because <code>ArrayList#add(0, element)</code>
  * has linear complexity. This list is intended to be used when you
  * want to add to the start of an {@link java.util.ArrayList}</p>
  *
- * <p>
- * This list does support modification if the underlying list supports it.
+ * <p>This list does support modification if the underlying list supports it.</p>
  *
  * @param <E> the element type
  */

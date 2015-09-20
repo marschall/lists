@@ -19,10 +19,9 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 /**
- * A {@link java.util.List} with only a single element.
+ * A list with only a single element.
  *
- * <p>
- * Unlike {@link java.util.Collections#singletonList(Object)} this one is mutable.
+ * <p>Unlike {@link java.util.Collections#singletonList(Object)} this one is mutable.</p>
  *
  * @param <E> the element type
  */

@@ -3,7 +3,6 @@ package com.github.marschall.lists;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.AbstractCollection;
-import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,8 +22,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 /**
  * A list containing just one element repeated several times.
  *
- * <p>
- * This list does not support modification.
+ * <p>This list does not support modification.</p>
  *
  * @param <E> the element type
  */

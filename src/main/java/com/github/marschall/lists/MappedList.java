@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
 /**
- * A read only view on a {@link List} after applying a {@link Function}.
+ * A read only view on a list after applying a mapping function.
  *
  * <p>This class is intended to be used when you already have a potentially
  * large list and want another list based on invoking the same function on
