@@ -13,6 +13,9 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
+
 /**
  * A read only view on a {@link List} after applying a {@link Function}.
  *
@@ -28,12 +31,15 @@ import java.util.function.Function;
  * @param <E> the type of elements in this list
  * @param <O> the original element type of the underlying list
  */
+@NotThreadSafe
 public final class MappedList<E, O> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
   // RandomAccess because likely the underlying list implements it as well (eg. ArrayList)
 
-  private final Function<O, E>  mapFunction;
+  @Nonnull
+  private final Function<O, E> mapFunction;
 
+  @Nonnull
   private final List<O> delegate;
 
   /**
@@ -42,7 +48,7 @@ public final class MappedList<E, O> extends AbstractCollection<E> implements Lis
    * @param mapFunction the function to produce the items in this list
    * @param delegate the list on who to run {@code mapFunction}
    */
-  public MappedList(Function<O, E> mapFunction, List<O> delegate) {
+  public MappedList(@Nonnull Function<O, E> mapFunction, @Nonnull List<O> delegate) {
     this.mapFunction = mapFunction;
     this.delegate = delegate;
   }

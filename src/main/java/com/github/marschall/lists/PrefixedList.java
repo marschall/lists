@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.RandomAccess;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
+
 /**
  * A Lisp-style list with a head and a tail.
  *
@@ -18,14 +22,16 @@ import java.util.RandomAccess;
  *
  * @param <E> the element type
  */
+@NotThreadSafe
 public final class PrefixedList<E> extends AbstractList<E>implements Serializable, RandomAccess {
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
   // RandomAccess because likely the cdr list implements it as well (eg. ArrayList)
 
+  @CheckForNull
   private E car;
   private final List<E> cdr;
 
-  public PrefixedList(E head, List<E> tail) {
+  public PrefixedList(@Nullable E head, List<E> tail) {
     this.car = head;
     this.cdr = tail;
   }

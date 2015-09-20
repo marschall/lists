@@ -14,6 +14,10 @@ import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
+
 /**
  * A {@link java.util.List} with only a single element.
  *
@@ -22,17 +26,19 @@ import java.util.function.Consumer;
  *
  * @param <E> the element type
  */
+@NotThreadSafe
 public final class SingletonList<E> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
 
+  @CheckForNull
   private E element;
 
   /**
-   * Constructor.
+   * Constructs mutable list with only the specified element.
    *
-   * @param value the value, can be {@code null}
+   * @param element the only element in the list, can be changed later, can be {@code null}
    */
-  public SingletonList(E value) {
-    this.element = value;
+  public SingletonList(@Nullable E element) {
+    this.element = element;
   }
 
   @Override

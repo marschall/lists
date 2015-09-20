@@ -16,6 +16,10 @@ import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
+
 /**
  * A list containing just one element repeated several times.
  *
@@ -24,9 +28,11 @@ import java.util.function.Consumer;
  *
  * @param <E> the element type
  */
+@NotThreadSafe
 public final class RepeatingList<E> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
 
+  @CheckForNull
   private final E element;
 
   private final int repetitons;
@@ -37,7 +43,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
    * @param value the value the value, can be {@code null}
    * @param repetitons the number of repetitions, must be positive
    */
-  public RepeatingList(E value, int repetitons) {
+  public RepeatingList(@Nullable E value, int repetitons) {
     if (repetitons <= 0) {
       throw new IllegalArgumentException("repetitions must be positive but was: " + repetitons);
     }
