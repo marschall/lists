@@ -210,4 +210,9 @@ public class MappedListTest {
     assertSame(longEnough, this.list.toArray(longEnough));
   }
 
+  public void example() {
+    List<Class<?>> classes = Collections.emptyList();
+    List<String> classNames = new MappedList<>(clazz -> clazz.getName(), classes);
+  }
+
 }

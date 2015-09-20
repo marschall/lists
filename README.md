@@ -13,7 +13,7 @@ Currently includes classes:
 <dt>RepeatingList</dt>
 <dd>one element repeated several times</dd>
 <dt>MappedList</dt>
-<dd>a map Function applied to an other list, just a view</dd>
+<dd>a map function applied to an other list, just a view</dd>
 </dl>
 
 All methods are below 325 byte and should therefore HotSpot should be able to inline them if they are hot.

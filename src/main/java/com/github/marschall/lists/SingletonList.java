@@ -187,6 +187,7 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
   }
 
   final class SingletonIterator implements ListIterator<E> {
+    // non-static because #set can modify the list
 
     private boolean isFirst;
 

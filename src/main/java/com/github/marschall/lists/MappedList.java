@@ -25,8 +25,14 @@ import javax.annotation.concurrent.NotThreadSafe;
  *
  * <p>This list behaves similar to {@link java.util.stream.Stream#map(Function)}.</p>
  *
- * <p>
- * This list does not support modification.
+ * <p>This list does not support modification.</p>
+ *
+ * <h3>Example</h3>
+ * <pre><code>
+ * List&lt;Class&lt;?&gt;&gt; classes = &hellip;;
+ * List&lt;String&gt; classNames = new MappedList&lt;&gt;(clazz -&gt; clazz.getName(), classes);
+ * </code></pre>
+ *
  *
  * @param <E> the type of elements in this list
  * @param <O> the original element type of the underlying list
