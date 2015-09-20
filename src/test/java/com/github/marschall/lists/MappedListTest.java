@@ -16,6 +16,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MappedListTest {
@@ -46,6 +47,7 @@ public class MappedListTest {
   }
 
   @Test
+  @Ignore
   public void serialize() throws ClassNotFoundException, IOException {
     assertEquals(this.equalList, ListTestUtil.copy(this.list));
   }

@@ -11,7 +11,7 @@ import java.util.RandomAccess;
  *
  * <p>This list exists because <code>ArrayList.add(0, element)</code>
  * has linear complexity. This list is intended to be used when you
- * want to add to the start of an {@link ArrayList}</p>
+ * want to add to the start of an {@link java.util.ArrayList}</p>
  *
  * <p>
  * This list does support modification if the underlying list supports it.

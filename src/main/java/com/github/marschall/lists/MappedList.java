@@ -20,15 +20,7 @@ import java.util.function.Function;
  * large list and want another list based on invoking the same function on
  * every element.</p>
  *
- * <p>This list behaves similar to {@link java.util.stream.Stream.map(Function)}.</p>
- *
- * <p>The following operations will be slow (linear complexity or worse):</p>
- * <ul>
- *  <li>{@link #contains(Object)}</li>
- *  <li>{@link #containsAll(Collection)}</li>
- *  <li>{@link #indexOf(Object)}</li>
- *  <li>{@link #lastIndexOf(Object)}</li>
- * </ul>
+ * <p>This list behaves similar to {@link java.util.stream.Stream#map(Function)}.</p>
  *
  * <p>
  * This list does not support modification.
@@ -40,15 +32,15 @@ public final class MappedList<E, O> extends AbstractCollection<E> implements Lis
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
   // RandomAccess because likely the underlying list implements it as well (eg. ArrayList)
 
-  private final Function<O, E> mapFunction;
+  private final Function<O, E>  mapFunction;
 
   private final List<O> delegate;
 
   /**
    * Constructor.
    *
-   * @param mapFunction
-   * @param delegate
+   * @param mapFunction the function to produce the items in this list
+   * @param delegate the list on who to run {@code mapFunction}
    */
   public MappedList(Function<O, E> mapFunction, List<O> delegate) {
     this.mapFunction = mapFunction;

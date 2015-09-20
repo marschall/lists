@@ -40,6 +40,15 @@ public class PrefixedListTest {
   }
 
   @Test
+  public void sublist() {
+    assertEquals(Collections.emptyList(), this.list.subList(0, 0));
+    assertEquals(Collections.singletonList("0"), this.list.subList(0, 1));
+    assertEquals(Arrays.asList("0", "1"), this.list.subList(0, 2));
+    assertEquals(Arrays.asList("1", "2", "3", "4"), this.list.subList(1, 5));
+    assertEquals(Arrays.asList("0", "1", "2", "3", "4"), this.list.subList(0, 5));
+  }
+
+  @Test
   public void size() {
     assertEquals(5, this.list.size());
   }

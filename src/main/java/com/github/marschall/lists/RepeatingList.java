@@ -77,7 +77,9 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
     if (toIndex == fromIndex) {
       return Collections.emptyList();
     } else if (toIndex - fromIndex == 1) {
-      // seems a better choice than com.github.marschall.lists.SingletonList as this is immutable as well
+      // no longer connected to this list but this is ok because
+      // this list is immutable and so is Collections.singletonList
+      // therefore no difference can be observed
       return Collections.singletonList(this.element);
     } else {
       return new RepeatingList<>(this.element, toIndex - fromIndex);
