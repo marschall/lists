@@ -1,4 +1,4 @@
-Lists
+Lists [![Build Status](https://travis-ci.org/marschall/lists.svg)](https://travis-ci.org/marschall/lists)
 =====
 
 Special purpose implementations of `java.util.List` that in the right niche use case can be much more efficient than implementations shipped with the JDK.
