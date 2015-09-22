@@ -1,7 +1,15 @@
-Lists [![Build Status](https://travis-ci.org/marschall/lists.svg)](https://travis-ci.org/marschall/lists)
+Lists [![Build Status](https://travis-ci.org/marschall/lists.svg)](https://travis-ci.org/marschall/lists) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/lists/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/lists)
 =====
 
 Special purpose implementations of `java.util.List` that in the right niche use case can be much more efficient than implementations shipped with the JDK.
+
+```xml
+<dependency>
+    <groupId>com.github.marschall</groupId>
+    <artifactId>lists</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 The implementations have optimized implementations of `java.util.Spliterator`.
 The implementations support serialization but this has not been optimized.
