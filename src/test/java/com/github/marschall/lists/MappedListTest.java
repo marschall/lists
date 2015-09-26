@@ -8,15 +8,16 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MappedListTest {
@@ -28,8 +29,12 @@ public class MappedListTest {
   @Before
   public void setUp() {
     List<Integer> delegate = Arrays.asList(0, 1, 2, 3, 4);
-    this.list = new MappedList<>(i -> i.toString(), delegate);
+    this.list = new MappedList<>(identity(i -> i.toString()), delegate);
     this.equalList = Arrays.asList("0", "1", "2", "3", "4");
+  }
+
+  private static <O, E, T extends Function<O, E> & Serializable> T identity(T function) {
+    return function;
   }
 
   @Test
@@ -47,7 +52,6 @@ public class MappedListTest {
   }
 
   @Test
-  @Ignore
   public void serialize() throws ClassNotFoundException, IOException {
     assertEquals(this.equalList, ListTestUtil.copy(this.list));
   }
