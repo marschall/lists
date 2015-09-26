@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -133,7 +134,7 @@ public class RepeatingListTest {
   }
 
   @Test
-  public void parallelStream() {
+  public void parallelForEach() {
     int count = 1_000_000;
     List<String> list = new RepeatingList<>("1", count);
     LongAdder adder = new LongAdder();
@@ -144,6 +145,14 @@ public class RepeatingListTest {
       }
     });
     assertEquals(count, adder.intValue());
+  }
+
+  @Test
+  public void parallelDistinct() {
+    List<String> list = new RepeatingList<>("1", 1_000_000);
+
+    List<String> distinct = list.parallelStream().distinct().collect(Collectors.toList());
+    assertEquals(Collections.singletonList("1"), distinct);
   }
 
   @Test
