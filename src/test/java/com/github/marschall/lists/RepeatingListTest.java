@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.Collectors;
 
 import org.junit.Before;
@@ -129,6 +130,20 @@ public class RepeatingListTest {
   public void spliterator() {
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 3).stream().collect(Collectors.toList()));
     assertEquals(3L, new RepeatingList<>("1", 3).stream().count());
+  }
+
+  @Test
+  public void parallelStream() {
+    int count = 1_000_000;
+    List<String> list = new RepeatingList<>("1", count);
+    LongAdder adder = new LongAdder();
+
+    list.parallelStream().forEach(s -> {
+      if ("1".equals(s)) {
+        adder.add(1L);
+      }
+    });
+    assertEquals(count, adder.intValue());
   }
 
   @Test
