@@ -1,11 +1,11 @@
 package com.github.marschall.lists;
 
+import static com.github.marschall.junitlambda.LambdaAssert.assertRaises;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MappedListTest {
-
 
   private List<String> list;
   private List<String> equalList;
@@ -128,12 +127,7 @@ public class MappedListTest {
     assertEquals("4", iterator.next());
 
     assertFalse(iterator.hasNext());
-    try {
-      iterator.next();
-      fail("should have reached the end");
-    } catch (NoSuchElementException e) {
-      // should reach hear
-    }
+    assertRaises(() -> iterator.next(), NoSuchElementException.class);
   }
 
   @Test

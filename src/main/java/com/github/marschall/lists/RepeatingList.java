@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 /**
@@ -26,7 +27,7 @@ import javax.annotation.concurrent.NotThreadSafe;
  *
  * @param <E> the element type
  */
-@NotThreadSafe
+@Immutable
 public final class RepeatingList<E> extends AbstractCollection<E> implements List<E>, Serializable, RandomAccess {
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
 
