@@ -1,5 +1,6 @@
 package com.github.marschall.lists;
 
+import static com.github.marschall.junitlambda.LambdaAssert.assertRaises;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -16,19 +17,27 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class RepeatingListTest {
 
+  private List<String> list;
+
+  @Before
+  public void setUp() {
+    this.list = new RepeatingList<>("1", 3);
+  }
+
   @Test
   public void size() {
     assertThat(new RepeatingList<>("1", 1), hasSize(1));
-    assertThat(new RepeatingList<>("1", 2), hasSize(2));
+    assertThat(this.list, hasSize(3));
   }
 
   @Test
   public void serialize() throws ClassNotFoundException, IOException {
-    assertEquals(new RepeatingList<>("1", 2), ListTestUtil.copy(new RepeatingList<>("1", 2)));
+    assertEquals(new RepeatingList<>("1", 3), ListTestUtil.copy(this.list));
   }
 
   @Test
@@ -48,8 +57,11 @@ public class RepeatingListTest {
 
   @Test
   public void get() {
-    assertEquals("1", new RepeatingList<>("1", 2).get(0));
-    assertEquals("1", new RepeatingList<>("1", 2).get(1));
+    assertEquals("1", this.list.get(0));
+    assertEquals("1", this.list.get(1));
+
+    assertRaises(() -> this.list.get(-1), IndexOutOfBoundsException.class);
+    assertRaises(() -> this.list.get(3), IndexOutOfBoundsException.class);
   }
 
 
@@ -105,6 +117,12 @@ public class RepeatingListTest {
     assertEquals(Arrays.asList("1", "1", "1"), new RepeatingList<>("1", 6).subList(3, 6));
     assertEquals(Collections.singletonList("1"), new RepeatingList<>("1", 6).subList(0, 1));
     assertEquals(Collections.emptyList(), new RepeatingList<>("1", 6).subList(0, 0));
+
+
+
+    assertRaises(() -> this.list.subList(-1, 1), IndexOutOfBoundsException.class);
+    assertRaises(() -> this.list.subList(0, 8), IndexOutOfBoundsException.class);
+    assertRaises(() -> this.list.subList(1, 0), IndexOutOfBoundsException.class);
   }
 
   @Test

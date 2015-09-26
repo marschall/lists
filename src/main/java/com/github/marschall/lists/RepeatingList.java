@@ -77,7 +77,7 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
       throw new IndexOutOfBoundsException("invalid from index: " + fromIndex + " to index: " + toIndex);
     }
     if (fromIndex > toIndex) {
-      throw new IllegalArgumentException("invalid from index: " + fromIndex + " to index: " + toIndex);
+      throw new IndexOutOfBoundsException("invalid from index: " + fromIndex + " to index: " + toIndex);
     }
     if (toIndex == fromIndex) {
       return Collections.emptyList();
