@@ -88,6 +88,21 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>com.github.ferstl</groupId>
+        <artifactId>jitwatch-jarscan-maven-plugin</artifactId>
+        <configuration>
+          <analyzeDependencies>false</analyzeDependencies>
+        </configuration>
+        <executions>
+          <execution>
+            <id>crate-jarscan-report</id>
+            <goals>
+              <goal>scan</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <configuration>
           <scope>test</scope>
@@ -160,6 +175,11 @@
         <plugin>
           <artifactId>maven-scm-plugin</artifactId>
           <version>1.9.2</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.ferstl</groupId>
+          <artifactId>jitwatch-jarscan-maven-plugin</artifactId>
+          <version>1.0.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
