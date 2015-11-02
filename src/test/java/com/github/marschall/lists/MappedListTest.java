@@ -28,12 +28,12 @@ public class MappedListTest {
   @Before
   public void setUp() {
     List<Integer> delegate = Arrays.asList(0, 1, 2, 3, 4);
-    this.list = new MappedList<>(identity(i -> i.toString()), delegate);
+    this.list = new MappedList<>(identity(), delegate);
     this.equalList = Arrays.asList("0", "1", "2", "3", "4");
   }
 
-  private static <O, E, T extends Function<O, E> & Serializable> T identity(T function) {
-    return function;
+  private static Function<Integer, String> identity() {
+    return (Function<Integer, String> & Serializable) i -> i.toString();
   }
 
   @Test
