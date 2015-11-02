@@ -62,6 +62,12 @@ public class SingletonListTest {
   }
 
   @Test
+  public void sort() {
+    this.list.sort(String::compareTo);
+    assertEquals(this.equalList, this.list);
+  }
+
+  @Test
   public void equals() {
     assertEquals(this.equalList, this.list);
     assertEquals(this.list, this.equalList);

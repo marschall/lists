@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -80,6 +81,11 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
   @Override
   public int size() {
     return 1;
+  }
+
+  @Override
+  public void sort(Comparator<? super E> c) {
+    // no op, only one element
   }
 
   @Override

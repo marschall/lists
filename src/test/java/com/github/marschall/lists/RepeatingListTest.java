@@ -58,6 +58,13 @@ public class RepeatingListTest {
   }
 
   @Test
+  public void sort() {
+    List<String> list = new RepeatingList<>("1", 3);
+    list.sort(String::compareTo);
+    assertEquals(Arrays.asList("1", "1", "1"), this.list);
+  }
+
+  @Test
   public void get() {
     assertEquals("1", this.list.get(0));
     assertEquals("1", this.list.get(1));
