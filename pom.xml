@@ -181,7 +181,7 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
-      <version>3.0.0</version>
+      <version>3.0.1</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -193,7 +193,7 @@
     <dependency>
       <groupId>com.github.marschall</groupId>
       <artifactId>junit-lambda</artifactId>
-      <version>0.1.0</version>
+      <version>0.3.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -246,7 +246,7 @@
   </profiles>
 
   <properties>
-    <jmh.version>1.11</jmh.version>
+    <jmh.version>1.11.2</jmh.version>
     <javac.target>1.8</javac.target>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
