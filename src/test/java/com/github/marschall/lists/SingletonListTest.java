@@ -197,6 +197,11 @@ public class SingletonListTest {
 
   @Test
   public void forEach() {
+    assertEquals(this.equalList, ListTestUtil.collect(this.list));
+  }
+
+  @Test
+  public void forEachStream() {
     assertEquals(this.equalList, ListTestUtil.collect(this.list.stream()));
   }
 

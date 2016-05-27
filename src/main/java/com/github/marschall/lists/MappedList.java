@@ -71,6 +71,11 @@ public final class MappedList<E, O> extends AbstractCollection<E> implements Lis
   }
 
   @Override
+  public void forEach(Consumer<? super E> action) {
+    this.delegate.forEach(e -> action.accept(this.mapFunction.apply(e)));
+  }
+
+  @Override
   public boolean contains(Object o) {
     int size = this.size();
     for (int i = 0; i < size; ++i) {

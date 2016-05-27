@@ -62,6 +62,13 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
   }
 
   @Override
+  public void forEach(Consumer<? super E> action) {
+    for (int i = 0; i < this.repetitons; i++) {
+      action.accept(this.element);
+    }
+  }
+
+  @Override
   public int size() {
     return this.repetitons;
   }

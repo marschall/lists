@@ -60,6 +60,11 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
   }
 
   @Override
+  public void forEach(Consumer<? super E> action) {
+    action.accept(this.element);
+  }
+
+  @Override
   public boolean contains(Object o) {
     return Objects.equals(this.element, o);
   }

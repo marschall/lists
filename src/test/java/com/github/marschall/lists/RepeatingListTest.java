@@ -164,6 +164,11 @@ public class RepeatingListTest {
 
   @Test
   public void forEach() {
+    assertEquals(Arrays.asList("1", "1", "1"), ListTestUtil.collect(new RepeatingList<>("1", 3)));
+  }
+
+  @Test
+  public void forEachStream() {
     assertEquals(Arrays.asList("1", "1", "1"), ListTestUtil.collect(new RepeatingList<>("1", 3).stream()));
   }
 

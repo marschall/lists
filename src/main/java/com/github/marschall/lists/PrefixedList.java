@@ -5,6 +5,7 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.function.Consumer;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -57,6 +58,12 @@ public final class PrefixedList<E> extends AbstractList<E>implements Serializabl
       return previous;
     }
     return this.cdr.set(index - 1, element);
+  }
+
+  @Override
+  public void forEach(Consumer<? super E> action) {
+    action.accept(this.car);
+    this.cdr.forEach(action);
   }
 
   @Override

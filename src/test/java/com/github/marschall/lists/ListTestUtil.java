@@ -11,6 +11,12 @@ import java.util.stream.Stream;
 
 final class ListTestUtil {
 
+  static <T> List<T> collect(List<T> list) {
+    List<T> result = new ArrayList<>();
+    list.forEach(each -> result.add(each));
+    return result;
+  }
+
   static <T> List<T> collect(Stream<T> stream) {
     List<T> result = new ArrayList<>();
     stream.forEach(each -> result.add(each));
