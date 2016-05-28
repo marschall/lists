@@ -16,13 +16,13 @@ The implementations support serialization but this has not been optimized.
 
 Currently includes classes:
 <dl>
-<dt>(SingletonList)[http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/SingletonList.html]</dt>
+<dt><a href="http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/SingletonList.html">SingletonList</a></dt>
 <dd>Like Collections.singletonList but mutable</dd>
-<dt>(RepeatingList)[http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/RepeatingList.html]</dt>
+<dt><a href="http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/RepeatingList.html">RepeatingList</a></dt>
 <dd>one element repeated several times, immutable</dd>
-<dt>(MappedList)[http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/MappedList.html]</dt>
+<dt><a href="http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/MappedList.html">RepeatingList</a></dt>
 <dd>a map function applied to an other list, just a view</dd>
-<dt>(PrefixedList)[http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/PrefixedList.html]</dt>
+<dt><a href="http://static.javadoc.io/com.github.marschall/lists/1.0.0/com/github/marschall/lists/PrefixedList.html">RepeatingList</a></dt>
 <dd>a Lisp-style list with a head and a tail</dd>
 </dl>
 
