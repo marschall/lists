@@ -8,6 +8,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,7 +27,7 @@ public class PrefixedListTest {
 
   @Before
   public void setUp() {
-    this.list = new PrefixedList<>("0", Arrays.asList("1", "2", "3", "4"));
+    this.list = new PrefixedList<>("0", new ArrayList<>(Arrays.asList("1", "2", "3", "4")));
     this.equalList = Arrays.asList("0", "1", "2", "3", "4");
   }
 
@@ -37,6 +38,42 @@ public class PrefixedListTest {
     assertEquals("2", this.list.get(2));
     assertEquals("3", this.list.get(3));
     assertEquals("4", this.list.get(4));
+  }
+
+  @Test
+  public void add() {
+    assertTrue(this.list.add("5"));
+    assertEquals(Arrays.asList("0", "1", "2", "3", "4", "5"), this.list);
+  }
+
+  @Test
+  public void addInt() {
+    this.list.add(2, "5");
+    assertEquals(Arrays.asList("0", "1", "5", "2", "3", "4"), this.list);
+  }
+
+  @Test
+  public void addAll() {
+    assertTrue(this.list.addAll(Arrays.asList("5", "6")));
+    assertEquals(Arrays.asList("0", "1", "2", "3", "4", "5", "6"), this.list);
+  }
+
+  @Test
+  public void addAllInst() {
+    assertTrue(this.list.addAll(2, Arrays.asList("5", "6")));
+    assertEquals(Arrays.asList("0", "1", "5", "6", "2", "3", "4"), this.list);
+  }
+
+  @Test
+  public void removeObject() {
+    assertTrue(this.list.remove("1"));
+    assertEquals(Arrays.asList("0", "2", "3", "4"), this.list);
+  }
+
+  @Test
+  public void removeInt() {
+    assertEquals("1", this.list.remove(1));
+    assertEquals(Arrays.asList("0", "2", "3", "4"), this.list);
   }
 
   @Test

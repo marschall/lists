@@ -22,6 +22,8 @@ Currently includes classes:
 <dd>one element repeated several times, immutable</dd>
 <dt>MappedList</dt>
 <dd>a map function applied to an other list, just a view</dd>
+<dt>PrefixedList</dt>
+<dd>a Lisp-style list with a head and a tail</dd>
 </dl>
 
 All methods are below 325 byte and should therefore HotSpot should be able to inline them if they are hot.

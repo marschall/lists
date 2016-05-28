@@ -2,6 +2,7 @@ package com.github.marschall.lists;
 
 import java.io.Serializable;
 import java.util.AbstractList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.RandomAccess;
@@ -20,10 +21,12 @@ import javax.annotation.concurrent.NotThreadSafe;
  *
  * <p>This list does support modification if the underlying list supports it.</p>
  *
+ * <p>This list gets more ineffient the more of them are chained together.</p>
+ *
  * @param <E> the element type
  */
 @NotThreadSafe
-public final class PrefixedList<E> extends AbstractList<E>implements Serializable, RandomAccess {
+public final class PrefixedList<E> extends AbstractList<E>implements List<E>, Serializable, RandomAccess {
   // extend AbstractCollection instead of AbstractList to avoid the unused modcount instance variable
   // RandomAccess because likely the cdr list implements it as well (eg. ArrayList)
 
@@ -74,6 +77,48 @@ public final class PrefixedList<E> extends AbstractList<E>implements Serializabl
   @Override
   public int size() {
     return this.cdr.size() + 1;
+  }
+
+  @Override
+  public boolean add(E e) {
+    return this.cdr.add(e);
+  }
+
+  @Override
+  public void add(int index, E element) {
+    if (index == 0) {
+      throw new UnsupportedOperationException();
+    }
+    this.cdr.add(index - 1, element);
+  }
+
+  @Override
+  public boolean addAll(Collection<? extends E> c) {
+    return this.cdr.addAll(c);
+  }
+
+  @Override
+  public boolean addAll(int index, Collection<? extends E> c) {
+    if (index == 0) {
+      throw new UnsupportedOperationException();
+    }
+    return this.cdr.addAll(index - 1, c);
+  }
+
+  @Override
+  public boolean remove(Object o) {
+    if (Objects.equals(this.car, o)) {
+      throw new UnsupportedOperationException();
+    }
+    return this.cdr.remove(o);
+  }
+
+  @Override
+  public E remove(int index) {
+    if (index == 0) {
+      throw new UnsupportedOperationException();
+    }
+    return this.cdr.remove(index - 1);
   }
 
   @Override
