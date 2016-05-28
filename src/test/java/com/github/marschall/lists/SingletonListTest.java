@@ -1,5 +1,6 @@
 package com.github.marschall.lists;
 
+import static com.github.marschall.junitlambda.LambdaAssert.assertRaises;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -7,7 +8,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static com.github.marschall.junitlambda.LambdaAssert.assertRaises;
 
 import java.io.IOException;
 import java.util.Arrays;

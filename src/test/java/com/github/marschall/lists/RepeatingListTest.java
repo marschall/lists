@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
