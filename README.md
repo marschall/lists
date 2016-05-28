@@ -7,7 +7,7 @@ Special purpose implementations of `java.util.List` that in the right niche use 
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>lists</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
