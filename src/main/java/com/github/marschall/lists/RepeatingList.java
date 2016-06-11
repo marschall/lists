@@ -263,6 +263,14 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
     }
 
     @Override
+    public void forEachRemaining(Consumer<? super E> action) {
+      while (this.index < repetitons) {
+        action.accept(element);
+        this.index += 1;
+      }
+    }
+
+    @Override
     public E next() {
       if (this.index == repetitons) {
         throw new NoSuchElementException();

@@ -269,6 +269,35 @@ public class RepeatingListTest {
     }
 
     assertFalse(iterator.hasNext());
+
+    iterator = list.iterator();
+    Accumulator acc = new Accumulator();
+    iterator.forEachRemaining(each -> {
+      assertEquals(next, each);
+      acc.increment();
+    });
+    assertEquals(count, acc.sum);
+
+    iterator = list.iterator();
+    iterator.next();
+    Accumulator acc2 = new Accumulator();
+    iterator.forEachRemaining(each -> {
+      assertEquals(next, each);
+      acc2.increment();
+    });
+    assertEquals(count - 1, acc2.sum);
+
+  }
+
+  static final class Accumulator {
+
+      int sum;
+
+      void increment() {
+        this.sum += 1;
+
+      }
+
   }
 
 }
