@@ -222,6 +222,14 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
     }
 
     @Override
+    public void forEachRemaining(Consumer<? super E> action) {
+      if (this.isFirst) {
+        action.accept(element);
+        this.isFirst = false;
+      }
+    }
+
+    @Override
     public boolean hasPrevious() {
       return !this.isFirst;
     }

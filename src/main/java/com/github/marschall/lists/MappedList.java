@@ -280,6 +280,11 @@ public final class MappedList<E, O> extends AbstractCollection<E> implements Lis
       return this.mapFunction.apply(this.delegate.next());
     }
 
+    @Override
+    public void forEachRemaining(Consumer<? super E> action) {
+      this.delegate.forEachRemaining(each -> action.accept(this.mapFunction.apply(each)));
+    }
+
   }
 
   static final class MappedListIterator<E, T> implements ListIterator<E> {
@@ -300,6 +305,11 @@ public final class MappedList<E, O> extends AbstractCollection<E> implements Lis
     @Override
     public E next() {
       return this.mapFunction.apply(this.delegate.next());
+    }
+
+    @Override
+    public void forEachRemaining(Consumer<? super E> action) {
+      this.delegate.forEachRemaining(each -> action.accept(this.mapFunction.apply(each)));
     }
 
     @Override

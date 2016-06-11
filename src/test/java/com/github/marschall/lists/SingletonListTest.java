@@ -8,6 +8,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -251,6 +252,29 @@ public class SingletonListTest {
     assertEquals(next, iterator.next());
 
     assertFalse(iterator.hasNext());
+
+    iterator = list.iterator();
+    Accumulator acc = new Accumulator();
+    iterator.forEachRemaining(each -> {
+      assertEquals(next, each);
+      acc.increment();
+    });
+    assertEquals(1, acc.sum);
+
+    iterator = list.iterator();
+    iterator.next();
+    iterator.forEachRemaining(each -> fail("should not have more elements"));
+  }
+
+  static final class Accumulator {
+
+      int sum;
+
+      void increment() {
+        this.sum += 1;
+
+      }
+
   }
 
 }
