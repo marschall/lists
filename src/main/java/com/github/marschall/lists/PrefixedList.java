@@ -21,7 +21,7 @@ import javax.annotation.concurrent.NotThreadSafe;
  *
  * <p>This list does support modification if the underlying list supports it.</p>
  *
- * <p>This list gets more ineffient the more of them are chained together.</p>
+ * <p>This list gets more inefficient the more of them are chained together.</p>
  *
  * @param <E> the element type
  */

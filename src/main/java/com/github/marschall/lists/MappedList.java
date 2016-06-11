@@ -22,7 +22,8 @@ import javax.annotation.concurrent.NotThreadSafe;
  * <p>This class is intended to be used when you already have a potentially
  * large list and want another list based on invoking the same function on
  * every element. Items in this list do not take up additional space as they
- * are created on demand and not stored.</p>
+ * are created on demand and not stored. For example if you have a list of
+ * objects and you want to have list of all of their ids.</p>
  *
  * <p>This list behaves similar to {@link java.util.stream.Stream#map(Function)}.</p>
  *
