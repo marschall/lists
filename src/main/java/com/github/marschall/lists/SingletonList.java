@@ -332,7 +332,10 @@ public final class SingletonList<E> extends AbstractCollection<E> implements Lis
 
     @Override
     public int characteristics() {
-      return Spliterator.SUBSIZED;
+      return Spliterator.ORDERED
+              | Spliterator.DISTINCT
+              | Spliterator.SIZED
+              | Spliterator.SUBSIZED;
     }
 
   }

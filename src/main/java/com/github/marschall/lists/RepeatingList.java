@@ -370,7 +370,10 @@ public final class RepeatingList<E> extends AbstractCollection<E> implements Lis
 
     @Override
     public int characteristics() {
-      return Spliterator.SUBSIZED;
+      return  Spliterator.SIZED
+              | Spliterator.SUBSIZED
+              | Spliterator.ORDERED
+              | Spliterator.IMMUTABLE;
     }
 
   }
