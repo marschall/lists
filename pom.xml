@@ -4,7 +4,7 @@
 
   <groupId>com.github.marschall</groupId>
   <artifactId>lists</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0-SNAPSHOT</version>
   <inceptionYear>2015</inceptionYear>
   <url>https://github.com/marschall/lists</url>
   <name>Lists</name>
@@ -39,7 +39,7 @@
     <connection>scm:git:git@github.com:marschall/lists.git</connection>
     <developerConnection>scm:git:git@github.com:marschall/lists.git</developerConnection>
     <url>${project.url}</url>
-    <tag>1.2.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
