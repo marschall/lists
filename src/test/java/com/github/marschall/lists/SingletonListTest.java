@@ -1,14 +1,15 @@
 package com.github.marschall.lists;
 
-import static com.github.marschall.junitlambda.LambdaAssert.assertRaises;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,15 +19,15 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SingletonListTest {
 
   private List<String> list;
   private List<String> equalList;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.list = new SingletonList<>("1");
     this.equalList = Collections.singletonList("1");
@@ -184,9 +185,9 @@ public class SingletonListTest {
     assertEquals(Arrays.asList("1").subList(0, 0), this.list.subList(0, 0));
     assertEquals(Arrays.asList("1").subList(0, 1), this.list.subList(0, 1));
 
-    assertRaises(() -> this.list.subList(-1, 1), IndexOutOfBoundsException.class);
-    assertRaises(() -> this.list.subList(0, 2), IndexOutOfBoundsException.class);
-    assertRaises(() -> this.list.subList(1, 0), IndexOutOfBoundsException.class);
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.subList(-1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.subList(0, 2));
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.subList(1, 0));
   }
 
 

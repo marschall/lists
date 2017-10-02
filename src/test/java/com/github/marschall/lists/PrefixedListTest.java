@@ -1,11 +1,11 @@
 package com.github.marschall.lists;
 
-import static com.github.marschall.junitlambda.LambdaAssert.assertRaises;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,16 +16,16 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class PrefixedListTest {
 
   private List<String> list;
   private List<String> equalList;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.list = new PrefixedList<>("0", new ArrayList<>(Arrays.asList("1", "2", "3", "4")));
     this.equalList = Arrays.asList("0", "1", "2", "3", "4");
@@ -141,7 +141,7 @@ public class PrefixedListTest {
   }
 
   @Test
-  @Ignore
+  @Disabled
   public void subListRemove() {
     this.list.subList(1, 5).remove(3);
     assertEquals(Arrays.asList("0", "1", "2", "3"), this.list);
@@ -185,7 +185,7 @@ public class PrefixedListTest {
     assertEquals("4", iterator.next());
 
     assertFalse(iterator.hasNext());
-    assertRaises(() -> iterator.next(), NoSuchElementException.class);
+    assertThrows(NoSuchElementException.class, () -> iterator.next());
   }
 
   @Test

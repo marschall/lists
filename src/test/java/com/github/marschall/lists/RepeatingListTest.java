@@ -1,13 +1,14 @@
 package com.github.marschall.lists;
 
-import static com.github.marschall.junitlambda.LambdaAssert.assertRaises;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,14 +19,14 @@ import java.util.ListIterator;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RepeatingListTest {
 
   private List<String> list;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.list = new RepeatingList<>("1", 3);
   }
@@ -68,8 +69,8 @@ public class RepeatingListTest {
     assertEquals("1", this.list.get(0));
     assertEquals("1", this.list.get(1));
 
-    assertRaises(() -> this.list.get(-1), IndexOutOfBoundsException.class);
-    assertRaises(() -> this.list.get(3), IndexOutOfBoundsException.class);
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.get(-1));
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.get(3));
   }
 
 
@@ -128,9 +129,9 @@ public class RepeatingListTest {
 
 
 
-    assertRaises(() -> this.list.subList(-1, 1), IndexOutOfBoundsException.class);
-    assertRaises(() -> this.list.subList(0, 8), IndexOutOfBoundsException.class);
-    assertRaises(() -> this.list.subList(1, 0), IndexOutOfBoundsException.class);
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.subList(-1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.subList(0, 8));
+    assertThrows(IndexOutOfBoundsException.class, () -> this.list.subList(1, 0));
   }
 
   @Test
